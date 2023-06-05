@@ -13,6 +13,9 @@ struct ContentView: View
     @State private var checkAmount = 0.0
     @State private var numberOfPeople = 2
     @State private var tipPercentage = 20
+    
+    @FocusState private var amountIsFocused: Bool
+    
     let tipPercentages = [10, 15, 20, 25, 0]
 
     var totalPerPerson: Double
@@ -27,6 +30,15 @@ struct ContentView: View
         return amountPerPerson
     }
     
+    var tipValue: Double
+    {
+        let tipSelection = Double(tipPercentage)
+        
+        let tipAmount = checkAmount / 100 * tipSelection
+        
+        return tipAmount
+    }
+    
     var body: some View
     {
         NavigationView
@@ -37,6 +49,7 @@ struct ContentView: View
                 {
                     TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
                         .keyboardType(.decimalPad)
+                        .focused($amountIsFocused)
                     
                     Picker("Number of people", selection: $numberOfPeople)
                     {
@@ -67,8 +80,47 @@ struct ContentView: View
                 {
                     Text(totalPerPerson, format: .currency(code: Locale.current.currencyCode ?? "USD"))
                 }
+                    header:
+                    {
+                        Text("Amount per person")
+                    }
+                
+                Section
+                {
+                    HStack
+                    {
+                        Text("Bill: ")
+                        Text(checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                    }
+                    HStack
+                    {
+                        Text("Tip: ")
+                        Text(tipValue, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                    }
+                    HStack
+                    {
+                        Text("Total: ")
+                        Text(tipValue + checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                    }
+                }
+                    header:
+                    {
+                        Text("Before split")
+                    }
             }
             .navigationTitle("WeSplit")
+            .toolbar
+            {
+                ToolbarItemGroup(placement: .keyboard)
+                {
+                    Spacer()
+                    
+                    Button("Done")
+                    {
+                        amountIsFocused = false
+                    }
+                }
+            }
         }
     }
 }
