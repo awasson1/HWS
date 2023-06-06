@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  WeSplit
+//  WeSplit Project, first module of the Hacking With Swift project list
 //
 //  Created by Anthony Wasson on 5/31/23.
 //
@@ -45,12 +45,15 @@ struct ContentView: View
         {
             Form
             {
+                //Data entry section
                 Section
                 {
+                    //Bill value entry
                     TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
                         .keyboardType(.decimalPad)
                         .focused($amountIsFocused)
                     
+                    //Number of people drop down selector
                     Picker("Number of people", selection: $numberOfPeople)
                     {
                         ForEach(2 ..< 100)
@@ -60,6 +63,7 @@ struct ContentView: View
                     }
                 }
                 
+                //Multiple choice tip value selection
                 Section
                 {
                     Picker("Tip percentage", selection: $tipPercentage)
@@ -70,39 +74,45 @@ struct ContentView: View
                         }
                     }
                     .pickerStyle(.segmented)
-                }
+                }   //header for the tip choice section
                     header:
                     {
                         Text("How much tip would you like to leave?")
                     }
                 
+                //Total amount + tip / people = split cost for each person, displayed here
                 Section
                 {
                     Text(totalPerPerson, format: .currency(code: Locale.current.currencyCode ?? "USD"))
-                }
+                }   //header for the split cost
                     header:
                     {
                         Text("Amount per person")
                     }
                 
+                
+                //Pre-split information display
                 Section
                 {
+                    //Bill before tip and before split
                     HStack
                     {
                         Text("Bill: ")
                         Text(checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
                     }
+                    //Tip calculated based on pre-split bill
                     HStack
                     {
                         Text("Tip: ")
                         Text(tipValue, format: .currency(code: Locale.current.currencyCode ?? "USD"))
                     }
+                    //Bill + tip before split
                     HStack
                     {
                         Text("Total: ")
                         Text(tipValue + checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
                     }
-                }
+                }   //Header for pre-split information
                     header:
                     {
                         Text("Before split")
