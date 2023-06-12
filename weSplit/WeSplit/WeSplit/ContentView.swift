@@ -118,7 +118,7 @@ struct ContentView: View
                         Text("Before split")
                     }
             }
-            .navigationTitle("WeSplit")
+            .navigationTitle("WeSplit Bills")
             .toolbar
             {
                 ToolbarItemGroup(placement: .keyboard)
